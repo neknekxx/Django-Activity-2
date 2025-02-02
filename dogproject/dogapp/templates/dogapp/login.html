@@ -1,0 +1,116 @@
+<!-- dogapp/templates/dogapp/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F8E7F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column; /* Ensure elements stack vertically */
+        }
+
+        .header-title {
+            color: #E5989B;
+            font-size: 36px;  /* Increased font size */
+            font-weight: bold; /* Make the text bold */
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title Above Login Container -->
+    <div class="header-title">
+        THIS IS A DOG PICTURE GENERATOR
+    </div>
+
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Display any form errors -->
+            {% if form.errors %}
+                <div class="error-message">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <!-- Form Fields -->
+            {{ form.as_p }}
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <!-- Redirect to Sign Up if no account -->
+        <div class="register-link">
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a></p>
+        </div>
+
+        <!-- If 'next' parameter exists, it's the page the user was trying to access -->
+        {% if request.GET.next %}
+            <p>Return to <a href="{{ request.GET.next }}">your page</a> after logging in.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
